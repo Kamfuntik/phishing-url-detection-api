@@ -75,15 +75,55 @@ def test_analyze_route_rejects_missing_url_field_with_400_envelope() -> None:
     assert "request_id" in data["error"]
 
 
+def test_analyze_route_rejects_non_json_content_type_with_400_envelope() -> None:
+    app = create_app(Config)
+    client = app.test_client()
+
+    response = client.post(
+        "/api/v1/analyze",
+        data="url=https://example.com",
+        content_type="text/plain",
+    )
+    data = response.get_json()
+
+    assert response.status_code == 400
+    assert data["error"]["code"] == "INVALID_CONTENT_TYPE"
+    assert data["error"]["message"] == "Content-Type header must be application/json."
+
+
+def test_analyze_route_rejects_malformed_json_syntax_with_400_envelope() -> None:
+    app = create_app(Config)
+    client = app.test_client()
+
+    response = client.post(
+        "/api/v1/analyze",
+        data='{"url": "https://example.com"',
+        content_type="application/json",
+    )
+    data = response.get_json()
+
+    assert response.status_code == 400
+    assert data["error"]["code"] == "MALFORMED_JSON"
+
+
+def test_analyze_route_rejects_get_method_with_405_envelope() -> None:
+    app = create_app(Config)
+    client = app.test_client()
+
+    response = client.get("/api/v1/analyze")
+    data = response.get_json()
+
+    assert response.status_code == 405
+    assert data["error"]["code"] == "METHOD_NOT_ALLOWED"
+
+
 def test_rate_limiter_enforces_429_with_standard_error_envelope() -> None:
     app = create_app(RateLimitTestConfig)
     client = app.test_client()
 
-    # First two requests succeed under '2 per minute' limit
     assert client.post("/api/v1/analyze", json={"url": "https://example.com"}).status_code == 200
     assert client.post("/api/v1/analyze", json={"url": "https://example.com"}).status_code == 200
 
-    # Third request triggers 429 RATE_LIMIT_EXCEEDED in the standard error envelope
     throttled = client.post("/api/v1/analyze", json={"url": "https://example.com"})
     data = throttled.get_json()
 

@@ -29,7 +29,7 @@ def analyze_url() -> Tuple[Response, int]:
     if not request.is_json:
         raise APIError(
             code="INVALID_CONTENT_TYPE",
-            message="Content-Type header must must be application/json.",
+            message="Content-Type header must be application/json.",
             status_code=400,
         )
 
