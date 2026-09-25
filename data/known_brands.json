@@ -1,0 +1,68 @@
+﻿{
+  "brands": [
+    {
+      "name": "paypal",
+      "official_domains": ["paypal.com", "paypal.me", "paypalobjects.com"]
+    },
+    {
+      "name": "microsoft",
+      "official_domains": ["microsoft.com", "live.com", "office.com", "outlook.com", "azure.com"]
+    },
+    {
+      "name": "google",
+      "official_domains": ["google.com", "gmail.com", "youtube.com", "googleapis.com"]
+    },
+    {
+      "name": "apple",
+      "official_domains": ["apple.com", "icloud.com", "cdn-apple.com"]
+    },
+    {
+      "name": "amazon",
+      "official_domains": ["amazon.com", "amazon.co.uk", "amazon.de", "aws.amazon.com"]
+    },
+    {
+      "name": "netflix",
+      "official_domains": ["netflix.com", "nflxext.com"]
+    },
+    {
+      "name": "facebook",
+      "official_domains": ["facebook.com", "fb.com", "messenger.com"]
+    },
+    {
+      "name": "instagram",
+      "official_domains": ["instagram.com"]
+    },
+    {
+      "name": "linkedin",
+      "official_domains": ["linkedin.com", "licdn.com"]
+    },
+    {
+      "name": "github",
+      "official_domains": ["github.com", "github.io", "githubusercontent.com"]
+    },
+    {
+      "name": "dropbox",
+      "official_domains": ["dropbox.com", "dropboxusercontent.com"]
+    },
+    {
+      "name": "chase",
+      "official_domains": ["chase.com", "jpmorganchase.com"]
+    },
+    {
+      "name": "wellsfargo",
+      "official_domains": ["wellsfargo.com"]
+    },
+    {
+      "name": "binance",
+      "official_domains": ["binance.com", "bnbstatic.com"]
+    },
+    {
+      "name": "coinbase",
+      "official_domains": ["coinbase.com"]
+    },
+    {
+      "name": "stripe",
+      "official_domains": ["stripe.com", "stripecdn.com"]
+    }
+  ]
+}
