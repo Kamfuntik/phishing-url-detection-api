@@ -1,14 +1,15 @@
-"""
+﻿"""
 app/__init__.py
 Application factory for the Phishing URL Detection API.
 """
 
-from typing import Optional, Type
+from typing import Type
 from flask import Flask
 
 from app.config import Config
 from app.errors import register_error_handlers
 from app.extensions import limiter
+from app.routes.analyze import analyze_bp
 from app.routes.health import health_bp
 
 
@@ -28,5 +29,6 @@ def create_app(config_class: Type[Config] = Config) -> Flask:
 
     # Register route blueprints
     app.register_blueprint(health_bp)
+    app.register_blueprint(analyze_bp)
 
     return app
