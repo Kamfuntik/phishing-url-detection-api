@@ -9,6 +9,7 @@ from flask import Flask
 from app.config import Config
 from app.errors import register_error_handlers
 from app.extensions import limiter
+from app.middleware import register_middleware
 from app.routes.analyze import analyze_bp
 from app.routes.health import health_bp
 
@@ -21,8 +22,9 @@ def create_app(config_class: Type[Config] = Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Initialize rate limiter
+    # Initialize rate limiter and request tracing middleware
     limiter.init_app(app)
+    register_middleware(app)
 
     # Register centralized JSON error handlers
     register_error_handlers(app)
