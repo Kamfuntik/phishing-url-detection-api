@@ -6,7 +6,6 @@ Health and root discovery endpoints for container orchestrators and browser visi
 from typing import Tuple
 from flask import Blueprint, Response, jsonify
 
-from app.config import Config
 from app.extensions import limiter
 
 
@@ -22,12 +21,12 @@ def index() -> Tuple[Response, int]:
     return (
         jsonify(
             {
-                "service": Config.API_TITLE,
-                "version": Config.API_VERSION,
+                "service": "phishing-url-detection-api",
+                "version": "1.0.0",
                 "status": "online",
                 "endpoints": {
                     "health": "GET /health",
-                    "analyze": "POST /api/v1/analyze (body: {'url': 'https://...'})",
+                    "analyze": "POST /api/v1/analyze",
                 },
             }
         ),
@@ -46,8 +45,8 @@ def health_check() -> Tuple[Response, int]:
         jsonify(
             {
                 "status": "ok",
-                "service": Config.API_TITLE,
-                "version": Config.API_VERSION,
+                "service": "phishing-url-detection-api",
+                "version": "1.0.0",
             }
         ),
         200,
