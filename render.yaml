@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: phishing-url-detection-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn "app:create_app()" --bind 0.0.0.0:$PORT --workers 2 --timeout 30
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: RATE_LIMIT_DEFAULT
+        value: 60 per minute
+      - key: RATE_LIMIT_ANALYZE
+        value: 30 per minute
