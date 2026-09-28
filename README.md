@@ -6,6 +6,31 @@ A stateless REST API in Python (Flask) that evaluates URLs for structural and le
 
 ---
 
+## Live Demo
+
+The API is deployed on Render and can be queried directly without cloning the repository:
+
+* **Base URL:** `https://phishing-url-detection-api-hy70.onrender.com`
+* **Health Check:** [`GET /health`](https://phishing-url-detection-api-hy70.onrender.com/health)
+
+*(Note: Hosted on Render's free tier; if the instance has been idle for 15 minutes, the initial request may take ~30 seconds to cold-start before returning sub-10ms responses.)*
+
+### Quick Test (`curl`)
+```bash
+curl -X POST [https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze](https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze) \
+  -H "Content-Type: application/json" \
+  -d '{"url": "[http://paypa1.tk/secure-login](http://paypa1.tk/secure-login)"}'
+```
+
+### Quick Test (PowerShell)
+```powershell
+Invoke-RestMethod -Uri "[https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze](https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze)" `
+  -Method POST -ContentType "application/json" `
+  -Body '{"url": "[http://paypa1.tk/secure-login](http://paypa1.tk/secure-login)"}' | ConvertTo-Json -Depth 5
+```
+
+---
+
 ## Architecture
 
 ```text
@@ -60,7 +85,7 @@ python run.py
 Liveness probe for container orchestrators and uptime checks. Exempt from rate limiting.
 
 ```bash
-curl -i [http://127.0.0.1:5000/health](http://127.0.0.1:5000/health)
+curl -i [https://phishing-url-detection-api-hy70.onrender.com/health](https://phishing-url-detection-api-hy70.onrender.com/health)
 ```
 
 **Response (`200 OK`):**
@@ -79,7 +104,7 @@ Evaluates a single URL and returns a normalized risk score, risk category, and p
 
 **Request:**
 ```bash
-curl -X POST [http://127.0.0.1:5000/api/v1/analyze](http://127.0.0.1:5000/api/v1/analyze) \
+curl -X POST [https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze](https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze) \
   -H "Content-Type: application/json" \
   -H "X-Request-ID: req-demo-001" \
   -d '{"url": "[http://paypa1.tk/secure-login](http://paypa1.tk/secure-login)"}'
@@ -137,6 +162,13 @@ curl -X POST [http://127.0.0.1:5000/api/v1/analyze](http://127.0.0.1:5000/api/v1
 ### 3. Error Envelope (`400` / `404` / `405` / `422` / `429` / `500`)
 All errors return a consistent JSON shape with the active `request_id`:
 
+```bash
+curl -X POST [https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze](https://phishing-url-detection-api-hy70.onrender.com/api/v1/analyze) \
+  -H "Content-Type: application/json" \
+  -d '{"url": "[paypa1.com/login](https://paypa1.com/login)"}'
+```
+
+**Response (`422 Unprocessable Entity`):**
 ```json
 {
   "error": {
